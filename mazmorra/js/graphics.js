@@ -1,6 +1,8 @@
 class Graphics {
     constructor() {
-      this.canvas = document.getElementById('canvas');
+	  this.canvas = document.getElementById('canvas');
+	  this.canvas.width = 750;
+      this.canvas.height = 500;
       this.ctx = canvas.getContext('2d');
   
       this.tileMap = new Image();
@@ -29,7 +31,7 @@ class Graphics {
     }
   
     refreshCanvas(){
-      canvas.width=750;
-      canvas.height=500;
+      this.canvas.width = 750;
+      this.canvas.height = 500;
     }
   }
