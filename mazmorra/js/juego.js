@@ -24,7 +24,7 @@ class Game {
 
   setEnemies() {
     this.enemigo.splice(0);
-    this.enemigo.push(new Malo(3,3, this));
+    this.enemigo.push(new Malo(3,4, this));
     this.enemigo.push(new Malo(9,3, this));
     this.enemigo.push(new Malo(9,8, this));
   }
