@@ -3,7 +3,8 @@ class Game {
     graphics;
     player;
     enemies = [];
-    torch;
+	torch;
+	mainloop;
 
     map = [
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -40,25 +41,29 @@ class Game {
       
         document.addEventListener('keydown',(tecla) => {
             const validMoves = [37,38,39,40];
-            if (validMoves.includes(tecla.keyCode)) this.player.move(tecla.keyCode)
+			if (validMoves.includes(tecla.keyCode)) this.player.move(tecla.keyCode);
+			else if (tecla.keyCode == 27) {
+				clearInterval(this.mainloop);
+				document.querySelector('#cover').style.visibility = 'visible';
+			}
         });
     
-        setInterval(() =>{
+        this.mainloop = setInterval(() =>{
             this.principal();
         },1000/this.FPS);
     }
 
-  principal() {
-      this.graphics.refreshCanvas();
-      this.graphics.drawMap(this.map);
-      this.graphics.draw(this.player);
-      for(let c=0; c < this.enemies.length; c++) {
-          this.enemies[c].mueve();
-          this.checkCollision(this.enemies[c]);
-          this.graphics.draw(this.enemies[c]);
-      }
-      this.graphics.draw(this.torch);
-  }
+  	principal() {
+		this.graphics.refreshCanvas();
+		this.graphics.drawMap(this.map);
+		this.graphics.draw(this.player);
+		for(let c=0; c < this.enemies.length; c++) {
+			this.enemies[c].mueve();
+			this.checkCollision(this.enemies[c]);
+			this.graphics.draw(this.enemies[c]);
+		}
+		this.graphics.draw(this.torch);
+  	}
 
     gameEnd(msg) {
         alert(msg);
@@ -67,11 +72,22 @@ class Game {
         this.player.key = false;
         this.map[8][5] = 3;
         this.setEnemies();
-    }
+	}
+	
+	unPause() {
+		this.mainloop = setInterval(() => {
+            this.principal();
+        },1000/this.FPS);
+	}
 }
 
 var game;
 function startGame() {
     game = new Game();
     game.inicializa();
+}
+
+function unPause() {
+	game.unPause();
+	document.querySelector('#cover').style.visibility = 'hidden';
 }
