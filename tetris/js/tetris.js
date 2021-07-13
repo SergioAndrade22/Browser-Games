@@ -2,14 +2,52 @@ var canvas;
 var ctx;
 var FPS = 50;
 
-var anchoTablero = 10;
-var altoTablero = 16;
+var anchoTablero = 11;
+var altoTablero = 20;
 
 var anchoFicha = 40;
 var altoFicha = 40;
 
+var margenSuperior = 4;
+
 var anchoCanvas = anchoFicha * anchoTablero;
 var altoCanvas = altoFicha * altoTablero;
+
+// Virtual board: (12x17) - Playable Board: (10x16)
+var tablero = [
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,0,0,0,0,0,0,0,0,0,0,1],
+	[1,1,1,1,1,1,1,1,1,1,1,1],
+];
+
+// COLORES
+var colores = [
+	'#FF8C00',
+	'#00CED1',
+	'#FFD700',
+ 	'#FF0000',
+	'#008000',
+	'#0000CD',
+	'#800080',
+]
 
 var fichaGrafico = [
 	[// CUADRADO
@@ -209,7 +247,7 @@ var objPieza = function() {
 		for(let py = 0; py < 4; py++) {
 			for(let px = 0; px < 4; px++) {
 				if (fichaGrafico[this.tipo][this.angulo][py][px] != 0){
-					ctx.fillStyle = '#777777';
+					ctx.fillStyle = colores[this.tipo];
 					ctx.fillRect((this.x + px) * anchoFicha,  (this.y + py) * altoFicha, anchoFicha, altoFicha);
 				}
 			}
@@ -233,26 +271,16 @@ var objPieza = function() {
 	}
 };
 
-// Virtual board: (12x17) - Playable Board: (10x16)
-var tablero = [
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,0,0,0,0,0,0,0,0,0,0,1],
-	[1,1,1,1,1,1,1,1,1,1,1,1],
-];
+function dibujaTablero() {
+	for(let py = margenSuperior; py < altoTablero; py++) {
+		for(let px = 1; px < anchoTablero; px++) {
+			if (tablero[py][px] != 0){
+				ctx.fillStyle = colores[tablero[py][px]];
+				ctx.fillRect((px-1) * anchoFicha,  (py-margenSuperior) * altoFicha, anchoFicha, altoFicha);
+			}
+		}
+	}
+}
 
 function inicializaTeclado() {
 	document.addEventListener('keydown', tecla => {
@@ -292,5 +320,6 @@ function borraCanvas() {
 
 function principal() {
 	borraCanvas();
+	dibujaTablero();
 	pieza.dibuja();
 }
