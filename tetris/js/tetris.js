@@ -243,32 +243,56 @@ var objPieza = function() {
 	this.angulo = 0;
 	this.tipo = 1;
 
+	this.retraso = 50;
+	this.fotograma = 0;
+
+	this.nueva = function() {
+		this.tipo = Math.floor(Math.random() * 7);
+		this.y = 6;
+		this.x = 4;
+	}
+
+	this.caer= function() {
+		if (this.fotograma < this.retraso) {
+			this.fotograma++;
+		} else {
+			this.y++;
+			this.fotograma = 0;
+		}
+	}
+
 	this.dibuja = function() {
 		for(let py = 0; py < 4; py++) {
 			for(let px = 0; px < 4; px++) {
 				if (fichaGrafico[this.tipo][this.angulo][py][px] != 0){
 					ctx.fillStyle = colores[this.tipo];
-					ctx.fillRect((this.x + px) * anchoFicha,  (this.y + py) * altoFicha, anchoFicha, altoFicha);
+					ctx.fillRect((this.x + px - 1) * anchoFicha,  (this.y + py - margenSuperior) * altoFicha, anchoFicha, altoFicha);
 				}
 			}
 		}
 	}
 
-	this.rotar = function() {
-		console.log('rotar');
-	}
-
-	this.abajo = function() {
-		console.log('abajo');
-	}
-
 	this.izquierda = function() {
-		console.log('izquierda');
+		this.x--;
+	}
+
+	this.rotar = function() {
+		if (this.angulo < 3) {
+			this.angulo ++;
+		} else {
+			this.angulo = 0;
+		}
 	}
 
 	this.derecha = function() {
-		console.log('derecha');
+		this.x++;
 	}
+
+	this.abajo = function() {
+		this.y++;
+	}
+
+	this.nueva();
 };
 
 function dibujaTablero() {
@@ -322,4 +346,5 @@ function principal() {
 	borraCanvas();
 	dibujaTablero();
 	pieza.dibuja();
+	pieza.caer();
 }
