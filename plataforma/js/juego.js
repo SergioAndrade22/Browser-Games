@@ -187,7 +187,36 @@ function dibujaEscenario(){
   }
 }
 
+function creaBloque(x, y) {
+	var xBloque = parseInt(x / anchoF);
+	var yBloque = parseInt(y / altoF);
+	var colorBloque = escenario[yBloque][xBloque];
 
+	colorBloque = colorBloque == 0 ? 2 : 0;
+
+	escenario[yBloque][xBloque] = colorBloque;
+}
+
+function dibujaBloque(x, y) {
+	ctx.fillStyle = '#777777';
+	ctx.fillRect(parseInt(x / anchoF) * anchoF, parseInt(y / altoF) * altoF, anchoF, altoF);
+}
+
+var ratonX = 0;
+var ratonY = 0;
+
+function clickRaton(e) {
+	console.log("click")
+}
+
+function sueltaRaton(e) {
+	creaBloque(ratonX, ratonY);
+}
+
+function posicionRaton(e) {
+	ratonX = e.pageX;
+	ratonY = e.pageY;
+}
 
 function inicializa(){
   canvas = document.getElementById('canvas');
@@ -195,6 +224,11 @@ function inicializa(){
 
   //CREAMOS AL JUGADOR
   protagonista = new jugador();
+
+  // CONTROL RATON
+  canvas.addEventListener('mousedown', clickRaton, false);
+  canvas.addEventListener('mouseup', sueltaRaton, false);
+  canvas.addEventListener('mousemove', posicionRaton, false);
 
   //LECTURA DEL TECLADO
   document.addEventListener('keydown',function(tecla){
@@ -239,5 +273,6 @@ function borraCanvas(){
 function principal(){
   borraCanvas();
   dibujaEscenario();
+  dibujaBloque(ratonX, ratonY);
   protagonista.dibuja();
 }
