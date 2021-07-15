@@ -45,6 +45,8 @@ var tablero = [
 var pieza;
 var graphics;
 
+var sound = new Sound();
+
 //COPIAMOS EL TABLERO ÍNTEGRO
 function reiniciaTablero(){
 	for(py = 0; py < 21; py++){
@@ -59,18 +61,22 @@ function inicializaTeclado(){
 	document.addEventListener('keydown',function(tecla){
 		if(tecla.keyCode == 37){
 			pieza.izquierda();
+			sound.playMove();
 		}
 
 		if(tecla.keyCode == 38){
 			pieza.rotar();
+			sound.playMove();
 		}
 
 		if(tecla.keyCode == 39){
 			pieza.derecha();
+			sound.playMove();
 		}
 
 		if(tecla.keyCode == 40){
 			pieza.abajo();
+			sound.playMove();
 		}
 	});
 }

@@ -78,6 +78,7 @@ class Piece {
 				for(let px = 1; px <= anchoTablero; px++){
 					tablero[py][px] = 0;
 				}
+				sound.playClear();
 			}
 		}
 	};
