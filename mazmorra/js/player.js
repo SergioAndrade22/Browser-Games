@@ -13,7 +13,11 @@ class Player {
       this.key = false;
   
       this.xTile = 32;
-      this.yTile = 32;
+	  this.yTile = 32;
+	  this.rollBack = {
+		  x: 0,
+		  y: 0,
+	  }
     }
   
     updateGraphics(){}
@@ -23,8 +27,9 @@ class Player {
     bounds = (x, y) => this.game.map[y][x] == 0;
   
     move(dir) {
-      this.movement[dir]();
-      this.checkObjects();
+		this.rollBack = {x: this.x, y: this.y};
+	    this.movement[dir]();
+    	this.checkObjects();
     }
   
     checkObjects() {
@@ -35,7 +40,8 @@ class Player {
         alert("Key found!");
       } else if (object === 1) {
         if (!this.key) {
-          this.x--;
+		  this.x = this.rollBack.x;
+		  this.y = this.rollBack.y;
           alert("You need to find the key!");
         } else {
           this.game.gameEnd("You win!");

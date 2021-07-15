@@ -1,5 +1,4 @@
 class Game {
-    FPS = 50;
     graphics;
     player;
     enemies = [];
@@ -27,7 +26,7 @@ class Game {
 		[0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,2,2,2,2,0,0,2,0,0,0],
 		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-	  ];
+	];
 
     constructor() {
         this.graphics = new Graphics(this.map);
@@ -51,7 +50,10 @@ class Game {
       
         document.addEventListener('keydown',(tecla) => {
             const validMoves = [37,38,39,40];
-			if (validMoves.includes(tecla.keyCode)) this.player.move(tecla.keyCode);
+			if (validMoves.includes(tecla.keyCode)) {
+				this.player.move(tecla.keyCode);
+				this.graphics.moveCamera(this.player.x, this.player.y);
+			}
 			else if (tecla.keyCode == 27) {
 				clearInterval(this.mainloop);
 				document.querySelector('#cover').style.visibility = 'visible';
@@ -60,7 +62,7 @@ class Game {
     
         this.mainloop = setInterval(() =>{
             this.principal();
-        },1000/this.FPS);
+        },1000/FPS);
     }
 
   	principal() {
@@ -87,7 +89,7 @@ class Game {
 	unPause() {
 		this.mainloop = setInterval(() => {
             this.principal();
-        },1000/this.FPS);
+        },1000/FPS);
 	}
 }
 
