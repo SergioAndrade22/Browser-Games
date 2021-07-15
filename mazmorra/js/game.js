@@ -30,7 +30,7 @@ class Game {
 	  ];
 
     constructor() {
-        this.graphics = new Graphics();
+        this.graphics = new Graphics(this.map);
     }
 
     setEnemies() {
@@ -65,7 +65,7 @@ class Game {
 
   	principal() {
 		this.graphics.refreshCanvas();
-		this.graphics.drawMap(this.map);
+		this.graphics.drawMap();
 		this.graphics.draw(this.player);
 		for(let c=0; c < this.enemies.length; c++) {
 			this.enemies[c].mueve();
